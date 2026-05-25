@@ -2,21 +2,35 @@
 
 > Mid-level GRC Analyst Portfolio | Risk Management · ISO 27001 · SOC 2 · NIST CSF · Audit & Controls
 
----
+# Hi, I'm Emmanuel Balogun! 👋
 
-## About This Portfolio
+![CompTIA Security+](https://img.shields.io/badge/CompTIA-Security%2B-red?style=flat-square&logo=comptia)
+![GRC Analyst](https://img.shields.io/badge/GRC-Analyst-blue?style=flat-square)
+![ISO 27001](https://img.shields.io/badge/ISO-27001-darkblue?style=flat-square)
+![PCI DSS](https://img.shields.io/badge/PCI-DSS%20v4.0-green?style=flat-square)
+![HIPAA](https://img.shields.io/badge/HIPAA-Compliance-purple?style=flat-square)
 
-This repository showcases practical GRC work across six projects spanning risk management, compliance, internal audit, PCI DSS, third-party risk, and HIPAA.
-Each project includes documentation, templates, risk artifacts, and analysis reports — demonstrating hands-on competency in enterprise GRC functions.
-
-**Core Competencies Demonstrated:**
-- Enterprise Risk Assessment & Register Management
-- Compliance Gap Analysis (ISO 27001, SOC 2 Type II, NIST CSF)
-- Internal Audit Planning & Control Testing
-- Policy Development & Exception Management
-- Evidence Collection & Audit Readiness
+## 🛡️ GRC Analyst | Risk Management | Compliance | Internal Audit
 
 ---
+
+## 👤 About Me
+
+I am a results-driven GRC Analyst with 5+ years of experience building and managing Governance, Risk, and Compliance programs across fintech, healthtech, and financial services sectors. My work spans enterprise risk assessments, compliance gap analyses, internal audits, PCI DSS programs, HIPAA compliance, and third-party risk management.
+
+I am passionate about translating complex regulatory requirements into practical, actionable controls that protect organisations and enable business growth. I hold a Master's degree and CompTIA Security+ certification, and I am actively pursuing CISM/CRISC.
+
+**Key highlights:**
+- Conducted gap analyses across ISO 27001, SOC 2, NIST CSF, PCI DSS v4.0, and HIPAA Security Rule
+- Built a TPRM program from scratch covering 215+ vendors aligned to ISO 27001 and DORA
+- Led internal ITGC audits producing formal findings reports aligned to IIA standards
+- Completed legally required HIPAA Security Risk Assessments for covered entities
+- Developed board-level risk reporting, executive dashboards, and compliance roadmaps
+
+📍 Open to GRC Analyst, Risk Analyst, Compliance Analyst, and Information Security Analyst roles
+📧 your.email@email.com
+🔗 [LinkedIn](https://linkedin.com/in/yourprofile)
+
 
 ## 📁 Projects
 
