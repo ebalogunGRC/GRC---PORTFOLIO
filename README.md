@@ -3,6 +3,10 @@
 > Mid-level GRC Analyst Portfolio | Risk Management · ISO 27001 · SOC 2 · NIST CSF · Audit & Controls
 
 # Hi, I'm Emmanuel Balogun! 👋
+<p align="center">
+  <img src="./IMG_0248 3.JPG" alt="Emmanuel Balogun" width="200" 
+  style="border-radius: 50%"/>
+</p>
 
 ![CompTIA Security+](https://img.shields.io/badge/CompTIA-Security%2B-red?style=flat-square&logo=comptia)
 ![GRC Analyst](https://img.shields.io/badge/GRC-Analyst-blue?style=flat-square)
