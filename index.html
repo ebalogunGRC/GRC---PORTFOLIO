@@ -1,15 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmanuel Balogun | GRC Analyst Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 
-  <meta charset="UTF-8">
+    <style>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            scroll-behavior:smooth;
+        }
 
-  <title>Emmanuel Balogun | GRC Analyst Portfolio</title>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:#ffffff;
+            color:#222;
+            line-height:1.7;
+        }
 
-  <link rel="stylesheet" href="style.css">
+        header{
+            width:100%;
+            padding:20px 8%;
+            border-bottom:1px solid #e5e5e5;
+            position:sticky;
+            top:0;
+            background:#fff;
+            z-index:1000;
+        }
+
+        nav{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logo{
+            font-size:28px;
+            font-weight:bold;
+        }
+
+        nav ul{
+            display:flex;
+            gap:30px;
+            list-style:none;
+        }
+
+        nav ul li a{
+            text-decoration:none;
+            color:#000;
+            font-weight:600;
+        }
+
+        nav ul li a:hover{
+            color:#0b57d0;
+        }
+
+        .hero{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:50px;
+            align-items:center;
+            padding:80px 8%;
+        }
+
+        .hero img{
+            width:100%;
+            border-radius:10px;
+        }
+
+        .hero h1{
+            font-size:60px;
+            margin-bottom:20px;
+        }
+
+        .hero h3{
+            color:#0b57d0;
+            margin-bottom:25px;
+            font-size:24px;
+            line-height:1.5;
+        }
+
+        .hero p{
+            margin-bottom:20px;
+            font-size:18px;
+        }
+
+        .btn{
+            display:inline-block;
+            margin-top:20px;
+            padding:14px 35px;
+            background:#0b57d0;
+            color:#fff;
+            text-decoration:none;
+            border-radius:6px;
+            font-weight:bold;
+        }
+
+        .btn:hover{
+            background:#003ea8;
+        }
+
+        .section{
+            padding:80px 8%;
+        }
+
+        .section h2{
+            font-size:42px;
+            margin-bottom:50px;
+            position:relative;
+        }
+
+        .section h2::after{
+            content:"";
+            width:100px;
+            height:4px;
+            background:red;
+            position:absolute;
+            left:0;
+            bottom:-10px;
+        }
+
+        .project-container{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:40px;
+        }
+
+        .project-card{
+            border:1px solid #e5e5e5;
+            border-radius:10px;
+            overflow:hidden;
+            background:#fff;
+            transition:0.3s;
+        }
+
+        .project-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .project-card img{
+            width:100%;
+            height:250px;
+            object-fit:cover;
+        }
+
+        .project-card-content{
+            padding:25px;
+        }
+
+        .project-card h3{
+            margin-bottom:15px;
+            font-size:24px;
+        }
+
+        .project-card p{
+            margin-bottom:20px;
+            color:#555;
+        }
+
+        .project-btn{
+            display:inline-block;
+            padding:12px 24px;
+            border:2px solid red;
+            color:red;
+            text-decoration:none;
+            font-weight:bold;
+            border-radius:5px;
+        }
+
+        .project-btn:hover{
+            background:red;
+            color:#fff;
+        }
+
+        .skills-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+            gap:50px;
+        }
+
+        .skills-grid h3{
+            margin-bottom:15px;
+            font-size:28px;
+        }
+
+        .skills-grid p{
+            color:#444;
+        }
+
+        .contact{
+            text-align:center;
+        }
+
+        .contact p{
+            margin-bottom:15px;
+            font-size:20px;
+        }
+
+        .social-links{
+            margin-top:30px;
+        }
+
+        .social-links a{
+            margin:0 15px;
+            text-decoration:none;
+            font-size:20px;
+            color:#0b57d0;
+            font-weight:bold;
+        }
+
+        footer{
+            text-align:center;
+            padding:30px;
+            background:#f5f5f5;
+            margin-top:60px;
+        }
+
+        @media(max-width:900px){
+
+            .hero{
+                grid-template-columns:1fr;
+            }
+
+            .hero h1{
+                font-size:42px;
+            }
+
+            nav ul{
+                gap:15px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -17,181 +245,195 @@
 
 <header>
 
-  <nav>
+    <nav>
 
-    <h2 class="logo">Emmanuel Balogun</h2>
+        <h2 class="logo">Emmanuel's Portfolio</h2>
 
-    <ul>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
 
-      <li><a href="#about">About</a></li>
-
-      <li><a href="#projects">Projects</a></li>
-
-      <li><a href="#skills">Skills</a></li>
-
-      <li><a href="#contact">Contact</a></li>
-
-    </ul>
-
-  </nav>
+    </nav>
 
 </header>
 
-<section id="about" class="hero">
+<section class="hero" id="about">
 
-  <div class="hero-image">
+    <div>
+        <img src="emmanuel_profile.jpg" alt="Emmanuel Balogun">
+    </div>
 
-    <img src="emmanuel_profile.jpg" alt="Emmanuel Balogun">
+    <div>
 
-  </div>
+        <h1>Hi, I'm Emmanuel Balogun</h1>
 
-  <div class="hero-text">
+        <h3>
+            GRC ANALYST || RISK MANAGEMENT || COMPLIANCE ||
+            CYBERSECURITY GOVERNANCE
+        </h3>
 
-    <h1>Hi, I'm Emmanuel Balogun</h1>
+        <p>
+            I am a Governance, Risk, and Compliance (GRC) professional focused on cybersecurity governance,
+            enterprise risk management, audit readiness, regulatory compliance, and security operations.
+        </p>
 
-    <h3>
-      GRC ANALYST || RISK MANAGEMENT || COMPLIANCE || CYBERSECURITY GOVERNANCE
-    </h3>
+        <p>
+            My portfolio demonstrates hands-on cybersecurity and compliance projects involving PCI DSS,
+            HIPAA Security Rule Compliance, Third-Party Risk Management, Compliance Gap Analysis,
+            Internal Controls Testing, and Enterprise Risk Register development.
+        </p>
 
-    <p>
-      I am a motivated Governance, Risk, and Compliance (GRC) professional with a strong passion for cybersecurity governance, risk management, compliance monitoring, and audit readiness.
-    </p>
+        <p>
+            I am passionate about helping organizations strengthen security posture, improve governance processes,
+            reduce operational risk, and align cybersecurity operations with regulatory and compliance requirements.
+        </p>
 
-    <p>
-      My experience includes hands-on cybersecurity projects involving PCI DSS, HIPAA Security Rule Compliance, Third-Party Risk Management, Compliance Gap Analysis, Internal Controls Testing, and Enterprise Risk Register development.
-    </p>
+        <a href="#projects" class="btn">Learn More</a>
 
-    <p>
-      I enjoy helping organizations strengthen their cybersecurity posture, improve governance processes, reduce operational risks, and align security practices with regulatory and compliance requirements.
-    </p>
-
-    <p>
-      I am continuously developing my cybersecurity and compliance skills while building practical projects that demonstrate governance, risk assessment, and compliance capabilities in real-world business environments.
-    </p>
-
-    <a href="#projects" class="btn">
-      Learn More
-    </a>
-
-  </div>
+    </div>
 
 </section>
 
 <section id="projects" class="section">
 
-  <h2>Projects</h2>
+    <h2>Projects</h2>
 
-  <div class="project-container">
+    <div class="project-container">
 
-    <div class="project-card">
+        <div class="project-card">
 
-      <img src="risk-register.jpg" alt="Enterprise Risk Register">
+            <img src="risk-register.jpg" alt="Risk Register">
 
-      <h3>Enterprise Risk Register</h3>
+            <div class="project-card-content">
 
-      <p>
-        Developed a cybersecurity risk register to identify, assess, prioritize, and track enterprise security risks and remediation activities.
-      </p>
+                <h3>Enterprise Risk Register</h3>
 
-      <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-1-risk-register"
-         target="_blank"
-         class="project-btn">
-         View Project
-      </a>
+                <p>
+                    Developed a cybersecurity risk register to identify, assess, prioritize,
+                    and monitor organizational risks while documenting remediation activities
+                    and mitigation strategies.
+                </p>
+
+                <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-1-risk-register"
+                   target="_blank"
+                   class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+        <div class="project-card">
+
+            <img src="compliance-gap.jpg" alt="Compliance Gap Analysis">
+
+            <div class="project-card-content">
+
+                <h3>Compliance Gap Analysis</h3>
+
+                <p>
+                    Performed compliance gap analysis by evaluating existing security controls
+                    against cybersecurity framework requirements to identify weaknesses
+                    and compliance improvement opportunities.
+                </p>
+
+                <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-2-compliance-gap-analysis"
+                   target="_blank"
+                   class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+        <div class="project-card">
+
+            <img src="audit-controls.jpg" alt="Audit Controls">
+
+            <div class="project-card-content">
+
+                <h3>Internal Audit & Controls Testing</h3>
+
+                <p>
+                    Conducted internal controls testing procedures to evaluate control effectiveness,
+                    support audit readiness, validate evidence collection, and track remediation activities.
+                </p>
+
+                <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-3-audit-controls"
+                   target="_blank"
+                   class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+        <div class="project-card">
+
+            <img src="pci-dss.jpg" alt="PCI DSS">
+
+            <div class="project-card-content">
+
+                <h3>PCI DSS Compliance Assessment</h3>
+
+                <p>
+                    Assessed organizational security controls against PCI DSS requirements
+                    to strengthen payment card security, compliance posture,
+                    and audit preparedness.
+                </p>
+
+                <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-4-pci-dss"
+                   target="_blank"
+                   class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+        <div class="project-card">
+
+            <img src="third-party-risk.jpg" alt="Third Party Risk">
+
+            <div class="project-card-content">
+
+                <h3>Third-Party Risk Management</h3>
+
+                <p>
+                    Evaluated vendor cybersecurity risks through due diligence reviews,
+                    vendor assessments, and risk monitoring processes to reduce third-party exposure.
+                </p>
+
+                <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-5-tprm"
+                   target="_blank"
+                   class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+        <div class="project-card">
+
+            <img src="hipaa-compliance.jpg" alt="HIPAA">
+
+            <div class="project-card-content">
+
+                <h3>HIPAA Security Rule Compliance</h3>
+
+                <p>
+                    Reviewed healthcare security controls against HIPAA Security Rule requirements
+                    to support compliance monitoring, risk reduction,
+                    and protection of sensitive healthcare information.
+                </p>
+
+                <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-6-hipaa"
+                   target="_blank"
+                   class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
 
     </div>
-
-    <div class="project-card">
-
-      <img src="compliance-gap.jpg" alt="Compliance Gap Analysis">
-
-      <h3>Compliance Gap Analysis</h3>
-
-      <p>
-        Conducted a cybersecurity compliance gap analysis by mapping existing organizational controls against security framework requirements.
-      </p>
-
-      <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-2-compliance-gap-analysis"
-         target="_blank"
-         class="project-btn">
-         View Project
-      </a>
-
-    </div>
-
-    <div class="project-card">
-
-      <img src="audit-controls.jpg" alt="Internal Audit Controls Testing">
-
-      <h3>Internal Audit & Controls Testing</h3>
-
-      <p>
-        Created audit testing procedures to evaluate control effectiveness, evidence collection processes, remediation tracking, and compliance readiness.
-      </p>
-
-      <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-3-audit-controls"
-         target="_blank"
-         class="project-btn">
-         View Project
-      </a>
-
-    </div>
-
-    <div class="project-card">
-
-      <img src="pci-dss.jpg" alt="PCI DSS Compliance">
-
-      <h3>PCI DSS v4.0 Compliance</h3>
-
-      <p>
-        Built a PCI DSS compliance assessment project focused on payment card security, audit preparation, security control mapping, and compliance validation.
-      </p>
-
-      <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-4-pci-dss"
-         target="_blank"
-         class="project-btn">
-         View Project
-      </a>
-
-    </div>
-
-    <div class="project-card">
-
-      <img src="third-party-risk.jpg" alt="Third Party Risk Management">
-
-      <h3>Third-Party Risk Management</h3>
-
-      <p>
-        Designed a vendor risk management process including vendor assessments, due diligence reviews, risk scoring, remediation tracking, and ongoing monitoring.
-      </p>
-
-      <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-5-tprm"
-         target="_blank"
-         class="project-btn">
-         View Project
-      </a>
-
-    </div>
-
-    <div class="project-card">
-
-      <img src="hipaa-compliance.jpg" alt="HIPAA Compliance">
-
-      <h3>HIPAA Security Rule Compliance</h3>
-
-      <p>
-        Developed a HIPAA compliance project focused on healthcare data protection, administrative safeguards, technical safeguards, and security governance.
-      </p>
-
-      <a href="https://github.com/ebalogunGRC/GRC---PORTFOLIO/tree/main/project-6-hipaa"
-         target="_blank"
-         class="project-btn">
-         View Project
-      </a>
-
-    </div>
-
-  </div>
 
 </section>
 
@@ -206,57 +448,57 @@
       <h3>Risk Management</h3>
 
       <p>
-        Risk assessments, risk registers, remediation tracking, risk prioritization, and treatment planning.
+        I identify, assess, prioritize, and monitor cybersecurity risks that may impact business operations, regulatory compliance, and organizational security posture. My approach focuses on risk mitigation, remediation tracking, and continuous risk improvement.
       </p>
 
     </div>
 
     <div>
 
-      <h3>Compliance Frameworks</h3>
+      <h3>Compliance Monitoring</h3>
 
       <p>
-        NIST CSF, ISO 27001, HIPAA, PCI DSS, SOC 2, COBIT, and ISO 31000.
+        I perform compliance reviews and monitor security controls against frameworks such as ISO 27001, NIST CSF, HIPAA, PCI DSS, and SOC 2 to ensure organizations maintain regulatory and security compliance readiness.
       </p>
 
     </div>
 
     <div>
 
-      <h3>Governance & Audit</h3>
+      <h3>Internal Controls Testing</h3>
 
       <p>
-        Internal audit support, controls testing, evidence collection, compliance reviews, and audit readiness activities.
+        I evaluate the effectiveness of cybersecurity and operational controls through testing procedures, evidence collection, audit support activities, and remediation validation to strengthen governance and compliance processes.
       </p>
 
     </div>
 
     <div>
 
-      <h3>Third-Party Risk</h3>
+      <h3>Third-Party Risk Management</h3>
 
       <p>
-        Vendor assessments, due diligence reviews, vendor monitoring, risk scoring, and remediation tracking.
+        I conduct vendor security assessments, due diligence reviews, risk scoring, and ongoing monitoring to identify and reduce risks associated with third-party service providers and external business partners.
       </p>
 
     </div>
 
     <div>
 
-      <h3>Security Documentation</h3>
+      <h3>Security Governance</h3>
 
       <p>
-        Policies, procedures, governance documentation, audit evidence, compliance reporting, and risk reporting.
+        I help organizations align cybersecurity operations with governance policies, compliance requirements, and business objectives by supporting governance documentation, risk reporting, and security oversight processes.
       </p>
 
     </div>
 
     <div>
 
-      <h3>Cybersecurity Tools</h3>
+      <h3>Audit Readiness</h3>
 
       <p>
-        Microsoft Excel, PowerPoint, Jira, ServiceNow, Microsoft Office Suite, and documentation platforms.
+        I support audit preparation activities by organizing documentation, validating controls, tracking remediation efforts, and ensuring security evidence is properly maintained for internal and external audits.
       </p>
 
     </div>
@@ -276,7 +518,7 @@
       <h3>Critical Thinking</h3>
 
       <p>
-        Strong analytical approach to identifying operational, compliance, and cybersecurity risks.
+        As a GRC professional, I use critical thinking to evaluate cybersecurity risks, analyze compliance gaps, assess security controls, and recommend practical solutions that improve organizational security posture.
       </p>
 
     </div>
@@ -286,7 +528,7 @@
       <h3>Communication</h3>
 
       <p>
-        Ability to communicate technical findings and compliance issues clearly to stakeholders.
+        Effective communication allows me to explain cybersecurity risks, audit findings, and compliance requirements clearly to both technical and non-technical stakeholders across the organization.
       </p>
 
     </div>
@@ -296,7 +538,7 @@
       <h3>Attention to Detail</h3>
 
       <p>
-        Careful review of controls, audit evidence, governance documentation, and remediation activities.
+        I pay close attention to governance documentation, audit evidence, security assessments, and compliance activities to ensure accuracy, consistency, and regulatory alignment.
       </p>
 
     </div>
@@ -306,7 +548,27 @@
       <h3>Problem Solving</h3>
 
       <p>
-        Focused on identifying root causes, improving controls, and reducing organizational risk exposure.
+        I approach cybersecurity and compliance challenges with a problem-solving mindset, identifying root causes, improving processes, and supporting effective risk remediation strategies.
+      </p>
+
+    </div>
+
+    <div>
+
+      <h3>Collaboration</h3>
+
+      <p>
+        I work collaboratively with teams across security, compliance, audit, and business operations to support governance initiatives, improve security controls, and strengthen compliance efforts.
+      </p>
+
+    </div>
+
+    <div>
+
+      <h3>Adaptability</h3>
+
+      <p>
+        I continuously adapt to evolving cybersecurity threats, changing compliance requirements, and emerging governance standards while maintaining a strong commitment to continuous learning and professional growth.
       </p>
 
     </div>
@@ -317,54 +579,29 @@
 
 <section id="contact" class="section contact">
 
-  <h2>Get In Touch</h2>
+    <h2>Contact</h2>
 
-  <p>
-    I am interested in cybersecurity Governance, Risk, and Compliance opportunities where I can contribute to risk management, compliance monitoring, audit readiness, and security governance initiatives.
-  </p>
+    <p>Email: emmanueldare567@gmail.com</p>
 
-  <br>
+    <p>Phone: +1 (713) 552-3534</p>
 
-  <p>
-    📧 Email:
-    <a href="mailto:emmanueldare567@gmail.com">
-      emmanueldare567@gmail.com
-    </a>
-  </p>
+    <div class="social-links">
 
-  <p>
-    📞 Phone:
-    <a href="tel:+17135523534">
-      +1 (713) 552-3534
-    </a>
-  </p>
+        <a href="https://www.linkedin.com/in/emmanuel-b-616a0137a"
+           target="_blank">LinkedIn</a>
 
-  <p>
-    💼 LinkedIn:
-    <a href="https://www.linkedin.com/in/emmanuel-b-616a0137a/"
-       target="_blank">
-       View LinkedIn Profile
-    </a>
-  </p>
+        <a href="https://github.com/ebalogunGRC"
+           target="_blank">GitHub</a>
 
-  <p>
-    💻 GitHub:
-    <a href="https://github.com/ebalogunGRC"
-       target="_blank">
-       View GitHub
-    </a>
-  </p>
+    </div>
 
 </section>
 
 <footer>
 
-  <p>
-    © 2026 Emmanuel Balogun | GRC Analyst Portfolio
-  </p>
+    <p>© 2026 Emmanuel Balogun | GRC Analyst Portfolio</p>
 
 </footer>
 
 </body>
-
 </html>
