@@ -17,11 +17,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:ital,wght@0,400;0,550;0,600;0,650;0,700;0,750;0,800;1,400&display=swap">
 <link rel="stylesheet" href="../../assets/site.css">
 </head>
-<body>
+<body class="p6">
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar"><div class="wrap">
 <a class="brand" href="../../"><span class="mark">EB</span><span><b>Emmanuel Balogun</b><small>GRC Analyst · Cybersecurity risk, compliance and IT audit</small></span></a>
-<nav class="topnav" aria-label="Primary"><a href="#summary">Summary</a><a href="#register">Register</a><a href="#method">Method</a><a href="../../#work">All projects</a><a class="cta" href="https://www.linkedin.com/in/emmanuel-balogun-616a0137a" target="_blank" rel="noopener">LinkedIn</a><a class="cta" href="https://github.com/ebalogunGRC" target="_blank" rel="noopener">GitHub</a></nav>
+<nav class="topnav" aria-label="Primary"><a href="#summary">Dashboard</a><a href="#register">Register</a><a href="#method">Method</a><a href="../../#work">All projects</a><a class="cta li" href="https://www.linkedin.com/in/emmanuel-balogun-616a0137a" target="_blank" rel="noopener">LinkedIn</a><a class="cta" href="https://github.com/ebalogunGRC" target="_blank" rel="noopener">GitHub</a></nav>
 </div></header>
 <main id="main">
 <header class="p-head"><div class="wrap">
@@ -33,26 +33,24 @@
 <div class="p-meta"><div><span>Organization</span>NovaCare Health Technologies (fictional)</div><div><span>Period</span>Aug – Sep 2026; status as of Oct 31, 2026</div><div><span>Prepared by</span>Emmanuel Balogun</div></div>
 </div></header>
 
-<section class="p-section" id="summary" aria-labelledby="h-summary"><div class="wrap">
-<h2 id="h-summary">Engagement summary</h2>
-<div class="glance"><div><span class="label">Objective</span><p>Verify that identity and cloud controls the risk register depends on are configured as intended.</p></div><div><span class="label">Scope</span><p>Entra ID tenant, on-prem AD service accounts, Microsoft 365 sharing, and all 6 AWS accounts.</p></div><div><span class="label">Approach</span><p>Read-only configuration exports, Access Analyzer and sign-in log review; no changes made during testing.</p></div><div><span class="label">Criteria</span><p>CIS AWS Foundations v3.0.0, CISA SCuBA secure configuration baselines, NovaCare access standards.</p></div></div>
+<section class="p-section dash" id="summary" aria-labelledby="h-dash"><div class="wrap">
+<h2 id="h-dash">Dashboard</h2>
 <div class="kpis"><div class="kpi"><b>15</b><span>controls tested</span></div><div class="kpi"><b>3</b><span>passed</span></div><div class="kpi warn"><b>6</b><span>failed</span></div><div class="kpi warn"><b>4 of 7</b><span>identity controls failed</span></div></div>
-</div></section>
-
-<section class="p-section" aria-labelledby="h-concl"><div class="wrap">
-<h2 id="h-concl">Conclusion and key findings</h2>
-<div class="conclusion">
-<div class="rating"><span class="label">Overall rating</span><div class="scale r2"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></div><strong>Needs major improvement</strong><p>AWS foundations (root, logging, encryption) are solid. Identity is the weak point: privileged access, lifecycle automation and service accounts all failed.</p></div>
-<div class="keyfindings"><article><span class="ref">CIA-01, CIA-02</span><div><h3>Every privileged role is permanent</h3><p>38 standing admin assignments, 9 Global Administrators, and 14 admins on push MFA. Moving to PIM with phishing-resistant MFA addresses R-01.</p></div></article><article><span class="ref">CIA-08</span><div><h3>Wildcard permissions on PHI data stores</h3><p>Six roles hold rds:* and s3:* on PHI resources; Access Analyzer flags 112 unused permissions.</p></div></article><article><span class="ref">CIA-06, CIA-07</span><div><h3>Identity lifecycle is manual</h3><p>No HR-driven provisioning, 9 apps outside SSO, and 23 ownerless service accounts, 4 with Domain Admin.</p></div></article><article><span class="ref">CIA-09, CIA-11, CIA-13</span><div><h3>Cloud foundations pass</h3><p>Organization-wide CloudTrail, hardware MFA on all root users and customer-managed KMS encryption on every PHI store.</p></div></article></div>
-</div>
-</div></section>
-
-<section class="p-section" aria-labelledby="h-analysis"><div class="wrap">
-<h2 id="h-analysis">Analysis</h2>
+<div class="dgrid-top"><div class="panel"><h3>Test results</h3><p class="sub">Results against CIS and CISA SCuBA baselines.</p><div class="donut-wrap"><svg viewBox="0 0 170 170" role="img" aria-label="Test results"><circle cx="85" cy="85" r="62" fill="none" stroke="var(--tint)" stroke-width="24"/><circle cx="85" cy="85" r="62" fill="none" stroke="var(--low)" stroke-width="24" stroke-dasharray="75.91 313.65" stroke-dashoffset="0.00" transform="rotate(-90 85 85)"><title>Pass: 3</title></circle><circle cx="85" cy="85" r="62" fill="none" stroke="var(--mod)" stroke-width="24" stroke-dasharray="153.82 235.73" stroke-dashoffset="-77.91" transform="rotate(-90 85 85)"><title>Partial: 6</title></circle><circle cx="85" cy="85" r="62" fill="none" stroke="var(--crit)" stroke-width="24" stroke-dasharray="153.82 235.73" stroke-dashoffset="-233.73" transform="rotate(-90 85 85)"><title>Fail: 6</title></circle><text x="85" y="90" text-anchor="middle" class="tot">15</text><text x="85" y="110" text-anchor="middle" class="totl">controls</text></svg><ul class="dlegend"><li><i style="background:var(--low)"></i><button type="button" data-set-filter="result:Pass">Pass</button><b>3</b></li><li><i style="background:var(--mod)"></i><button type="button" data-set-filter="result:Partial">Partial</button><b>6</b></li><li><i style="background:var(--crit)"></i><button type="button" data-set-filter="result:Fail">Fail</button><b>6</b></li></ul></div></div><div class="panel"><h3>Overall rating</h3><div class="rating" style="border:0;padding:0"><div class="scale r2"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></div><strong>Needs major improvement</strong><p>AWS foundations (root, logging, encryption) are solid. Identity is the weak point: privileged access, lifecycle automation and service accounts all failed.</p></div><h3 style="margin-top:6px">Top issues</h3><ul class="topissues"><li><span class="ref">CIA-01, CIA-02</span><a href="#findings">Every privileged role is permanent</a></li><li><span class="ref">CIA-08</span><a href="#findings">Wildcard permissions on PHI data stores</a></li><li><span class="ref">CIA-06, CIA-07</span><a href="#findings">Identity lifecycle is manual</a></li></ul></div></div>
 <div class="charts one">
 <div class="panel"><h3>Results by platform</h3><p class="sub">The figure on the right is controls that passed. Select a platform to filter.</p><div class="hbars"><div class="hbar"><button type="button" class="l linklike" data-set-filter="platform:Entra ID">Entra ID</button><span class="trk"><i class="seg-mod" style="width:42.86%" title="Partial: 3"></i><i class="seg-crit" style="width:42.86%" title="Fail: 3"></i></span><span class="v">0/6</span></div><div class="hbar"><button type="button" class="l linklike" data-set-filter="platform:Entra ID / AD">Entra ID / AD</button><span class="trk"><i class="seg-crit" style="width:14.29%" title="Fail: 1"></i></span><span class="v">0/1</span></div><div class="hbar"><button type="button" class="l linklike" data-set-filter="platform:Microsoft 365">Microsoft 365</button><span class="trk"><i class="seg-mod" style="width:14.29%" title="Partial: 1"></i></span><span class="v">0/1</span></div><div class="hbar"><button type="button" class="l linklike" data-set-filter="platform:AWS">AWS</button><span class="trk"><i class="seg-low" style="width:42.86%" title="Pass: 3"></i><i class="seg-mod" style="width:28.57%" title="Partial: 2"></i><i class="seg-crit" style="width:28.57%" title="Fail: 2"></i></span><span class="v">3/7</span></div></div>
 <div class="legend"><span><i class="seg-low"></i>Pass</span><span><i class="seg-mod"></i>Partial</span><span><i class="seg-crit"></i>Fail</span></div></div>
 </div>
+</div></section>
+
+<section class="p-section" id="findings" aria-labelledby="h-concl"><div class="wrap">
+<h2 id="h-concl">Key findings</h2>
+<div class="keyfindings"><article><span class="ref">CIA-01, CIA-02</span><div><h3>Every privileged role is permanent</h3><p>38 standing admin assignments, 9 Global Administrators, and 14 admins on push MFA. Moving to PIM with phishing-resistant MFA addresses R-01.</p></div></article><article><span class="ref">CIA-08</span><div><h3>Wildcard permissions on PHI data stores</h3><p>Six roles hold rds:* and s3:* on PHI resources; Access Analyzer flags 112 unused permissions.</p></div></article><article><span class="ref">CIA-06, CIA-07</span><div><h3>Identity lifecycle is manual</h3><p>No HR-driven provisioning, 9 apps outside SSO, and 23 ownerless service accounts, 4 with Domain Admin.</p></div></article><article><span class="ref">CIA-09, CIA-11, CIA-13</span><div><h3>Cloud foundations pass</h3><p>Organization-wide CloudTrail, hardware MFA on all root users and customer-managed KMS encryption on every PHI store.</p></div></article></div>
+</div></section>
+
+<section class="p-section" aria-labelledby="h-scope"><div class="wrap">
+<h2 id="h-scope">Scope and approach</h2>
+<div class="glance"><div><span class="label">Objective</span><p>Verify that identity and cloud controls the risk register depends on are configured as intended.</p></div><div><span class="label">Scope</span><p>Entra ID tenant, on-prem AD service accounts, Microsoft 365 sharing, and all 6 AWS accounts.</p></div><div><span class="label">Approach</span><p>Read-only configuration exports, Access Analyzer and sign-in log review; no changes made during testing.</p></div><div><span class="label">Criteria</span><p>CIS AWS Foundations v3.0.0, CISA SCuBA secure configuration baselines, NovaCare access standards.</p></div></div>
 </div></section>
 
 <section class="p-section" id="register" aria-labelledby="h-reg"><div class="wrap">
@@ -80,7 +78,7 @@
 <section class="p-section" aria-labelledby="h-rel"><div class="wrap">
 <h2 id="h-rel">Connected workstreams</h2>
 <p class="sub">Findings here feed, or draw on, these other parts of the same program.</p>
-<div class="related"><a href="../risk-assessment/"><b>Enterprise Cybersecurity Risk Assessment</b><span>Project 01</span></a><a href="../it-audit/"><b>IT General Controls Audit</b><span>Project 03</span></a><a href="../vulnerability-management/"><b>Vulnerability Management &amp; POA&amp;M</b><span>Project 04</span></a></div>
+<div class="related"><a style="--rc:var(--p1)" href="../risk-assessment/"><b>Enterprise Cybersecurity Risk Assessment</b><span>Project 01</span></a><a style="--rc:var(--p3)" href="../it-audit/"><b>IT General Controls Audit</b><span>Project 03</span></a><a style="--rc:var(--p4)" href="../vulnerability-management/"><b>Vulnerability Management &amp; POA&amp;M</b><span>Project 04</span></a></div>
 <div style="margin-top:36px" class="pager"><a href="../third-party-risk/"><span>← Previous · 05</span>Third-Party Risk Management Review</a><a class="next" href="../business-continuity/"><span>Next · 07 →</span>Business Impact Analysis &amp; Recovery Readiness</a></div>
 </div></section>
 </main>

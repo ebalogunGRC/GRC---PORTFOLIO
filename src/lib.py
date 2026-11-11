@@ -24,7 +24,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314212B'/%3E"
            "%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='%23F4F6F7' text-anchor='middle'%3EEB%3C/text%3E%3C/svg%3E")
 
-def page(title, description, body, depth=0, canonical_path=""):
+def page(title, description, body, depth=0, canonical_path="", body_class=""):
     root = "../" * depth
     site = "https://ebalogungrc.github.io/GRC---PORTFOLIO/"
     return f"""<!doctype html>
@@ -46,7 +46,7 @@ def page(title, description, body, depth=0, canonical_path=""):
 {FONTS}
 <link rel="stylesheet" href="{root}assets/site.css">
 </head>
-<body>
+<body{(' class="' + body_class + '"') if body_class else ""}>
 <a class="skip" href="#main">Skip to content</a>
 {body}
 <script src="{root}assets/site.js" defer></script>
@@ -58,7 +58,7 @@ def topbar(depth=0, nav=None):
     root = "../" * depth
     nav = nav or []
     links = "".join(f'<a href="{h}">{e(t)}</a>' for t, h in nav)
-    li = (f'<a class="cta" href="{e(PERSON["linkedin"])}" target="_blank" rel="noopener">LinkedIn</a>' if PERSON["linkedin"] else "")
+    li = (f'<a class="cta li" href="{e(PERSON["linkedin"])}" target="_blank" rel="noopener">LinkedIn</a>' if PERSON["linkedin"] else "")
     return f"""<header class="topbar"><div class="wrap">
 <a class="brand" href="{root or './'}"><span class="mark">EB</span><span><b>{e(PERSON['name'])}</b><small>{e(PERSON['title'])} · {e(PERSON['focus'])}</small></span></a>
 <nav class="topnav" aria-label="Primary">{links}{li}<a class="cta" href="{e(PERSON['github'])}" target="_blank" rel="noopener">GitHub</a></nav>

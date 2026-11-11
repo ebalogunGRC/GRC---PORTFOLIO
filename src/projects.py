@@ -64,6 +64,29 @@ TITLES = {
 
 def kv(label, value): return (label, value)
 
+PCLASS = {slug: f"p{i+1}" for i, slug in enumerate(ORDER)}
+
+def donut(title, center_label, items, sub=""):
+    """items: list of (label, count, css color var, filter spec)"""
+    total = sum(c for _, c, _, _ in items) or 1
+    r, sw, C = 62, 24, 2 * 3.14159265 * 62
+    off = 0; arcs = []
+    for lbl, c, col, _ in items:
+        if not c: continue
+        L = c / total * C
+        arcs.append(f'<circle cx="85" cy="85" r="{r}" fill="none" stroke="var({col})" stroke-width="{sw}" '
+                    f'stroke-dasharray="{L-2:.2f} {C-L+2:.2f}" stroke-dashoffset="{-off:.2f}" transform="rotate(-90 85 85)"><title>{e(lbl)}: {c}</title></circle>')
+        off += L
+    svg = (f'<svg viewBox="0 0 170 170" role="img" aria-label="{e(title)}">'
+           f'<circle cx="85" cy="85" r="{r}" fill="none" stroke="var(--tint)" stroke-width="{sw}"/>{"".join(arcs)}'
+           f'<text x="85" y="90" text-anchor="middle" class="tot">{total}</text><text x="85" y="110" text-anchor="middle" class="totl">{e(center_label)}</text></svg>')
+    leg = "".join(
+        f'<li><i style="background:var({col})"></i>'
+        + (f'<button type="button" data-set-filter="{e(f)}">{e(lbl)}</button>' if f and c else f'<span>{e(lbl)}</span>')
+        + f'<b>{c}</b></li>' for lbl, c, col, f in items)
+    return (f'<div class="panel"><h3>{e(title)}</h3>' + (f'<p class="sub">{e(sub)}</p>' if sub else "") +
+            f'<div class="donut-wrap">{svg}<ul class="dlegend">{leg}</ul></div></div>')
+
 # ---------------------------------------------------------------- charts
 def heatmap(risks, which="inh"):
     counts = Counter((r["il"], r["ii"]) if which == "inh" else (r["rl"], r["ri"]) for r in risks)
@@ -394,13 +417,13 @@ def spec_vuln():
     closed = [f for f in fs if not f["is_open"]]
     prios = ["Critical", "High", "Moderate", "Low"]
     states = ["Met", "Within SLA", "Overdue", "Exception"]
-    segc = {"Met": "seg-low", "Within SLA": "seg-acc", "Overdue": "seg-crit", "Exception": "seg-none"}
+    segc = {"Met": "seg-low", "Within SLA": "seg-info", "Overdue": "seg-crit", "Exception": "seg-none"}
     byp = hbars([(f"{p} · {SLA[p]}-day SLA", [(sum(1 for f in fs if f["prio"] == p and f["sla_state"] == s), segc[s], s) for s in states],
                   str(sum(1 for f in fs if f["prio"] == p)), f"prio:{p}") for p in prios])
     mean_age = sum(f["age"] for f in openf) / len(openf)
     charts = f"""<div class="charts">
 <div class="panel"><h3>SLA performance by priority</h3><p class="sub">All 16 POA&amp;M items. Select a priority to filter.</p>{byp}
-{legend([("Closed within SLA","seg-low"),("Open, within SLA","seg-acc"),("Overdue","seg-crit"),("Risk-accepted exception","seg-none")])}</div>
+{legend([("Closed within SLA","seg-low"),("Open, within SLA","seg-info"),("Overdue","seg-crit"),("Risk-accepted exception","seg-none")])}</div>
 <div class="panel"><h3>Age of open findings against SLA</h3><p class="sub">Bar length is days open on Oct 31, 2026, coloured by priority; the tick is the SLA. Solid bars and red figures are overdue.</p>{age_chart(fs)}</div>
 </div>"""
     sc = {"Met": "low", "Within SLA": "plain", "Overdue": "crit", "Exception": "plain"}
@@ -645,7 +668,7 @@ def spec_ai():
                  lambda r, c: f"status:{c}", corner="Tier \\ status")
     funcs = ["GOVERN", "MAP", "MEASURE", "MANAGE"]
     gapc = {f: sum(1 for u in us if f + ":" in u["gaps"]) for f in funcs}
-    gb = hbars([(f.title(), [(gapc[f], "seg-acc", f)], f"{gapc[f]} use cases", f"gap:{f.title()}") for f in funcs], total=len(us))
+    gb = hbars([(f.title(), [(gapc[f], "seg-acc", f)], str(gapc[f]), f"gap:{f.title()}") for f in funcs], total=len(us))
     charts = f"""<div class="charts">
 <div class="panel"><h3>Risk tier against decision</h3><p class="sub">Select a cell to filter the inventory.</p>{mtx}</div>
 <div class="panel"><h3>Gaps by NIST AI RMF function</h3><p class="sub">Number of use cases with at least one gap in each function. Measure gaps are the most common: few models have been tested for accuracy or bias.</p>{gb}</div>
@@ -701,6 +724,47 @@ def spec_ai():
                    ["Medium","PHI or personal data with a human reviewing every output","Board decision; annual review"],["Low","No personal data; low-impact internal use","Owner approval; annual review"]]),
     )
 
+def make_donut(slug):
+    C = Counter
+    if slug == "risk-assessment":
+        c = C(r["status"] for r in RISKS)
+        return donut("Treatment status", "risks", [("Complete", c["Complete"], "--low", "status:Complete"),
+            ("In progress", c["In progress"], "--info", "status:In progress"), ("Not started", c["Not started"], "--none", "status:Not started"),
+            ("Residual accepted", c["Residual accepted"], "--mod", "status:Residual accepted")], "Where each risk's treatment plan stands.")
+    if slug == "gap-assessment":
+        c = C(o["status"] for o in OUTCOMES)
+        return donut("Implementation status", "outcomes", [("Implemented", c["Implemented"], "--low", "status:Implemented"),
+            ("Partially implemented", c["Partially implemented"], "--mod", "status:Partially implemented"),
+            ("Not implemented", c["Not implemented"], "--crit", "status:Not implemented")], "Status of the 36 outcomes assessed.")
+    if slug == "it-audit":
+        c = C(x["result"] for x in CONTROLS)
+        return donut("Test results", "controls", [("Effective", c["Effective"], "--low", "result:Effective"),
+            ("Deficiency", c["Deficiency"], "--mod", "result:Deficiency"),
+            ("Significant deficiency", c["Significant deficiency"], "--crit", "result:Significant deficiency")], "Operating effectiveness of each control tested.")
+    if slug == "vulnerability-management":
+        c = C(f["sla_state"] for f in FINDINGS)
+        return donut("SLA status", "items", [("Closed within SLA", c["Met"], "--low", "sla:Met"), ("Open, within SLA", c["Within SLA"], "--info", "sla:Within SLA"),
+            ("Overdue", c["Overdue"], "--crit", "sla:Overdue"), ("Risk-accepted exception", c["Exception"], "--none", "sla:Exception")], "Every POA&M item against its remediation deadline.")
+    if slug == "third-party-risk":
+        c = C(v["decision"] for v in VENDORS)
+        return donut("Review decisions", "vendors", [("Approve", c["Approve"], "--low", "decision:Approve"),
+            ("Approve with conditions", c["Approve with conditions"], "--mod", "decision:Approve with conditions"),
+            ("Remediate before renewal", c["Remediate before renewal"], "--crit", "decision:Remediate before renewal")], "Outcome of each vendor review.")
+    if slug == "cloud-iam":
+        c = C(x["result"] for x in CHECKS)
+        return donut("Test results", "controls", [("Pass", c["Pass"], "--low", "result:Pass"), ("Partial", c["Partial"], "--mod", "result:Partial"),
+            ("Fail", c["Fail"], "--crit", "result:Fail")], "Results against CIS and CISA SCuBA baselines.")
+    if slug == "business-continuity":
+        c = C(x["ready"] for x in SERVICES)
+        return donut("Recovery readiness", "services", [("Meets RTO", c["Meets RTO"], "--low", "ready:Meets RTO"),
+            ("Misses RTO", c["Misses RTO"], "--crit", "ready:Misses RTO"), ("Not tested", c["Not tested"], "--none", "ready:Not tested")], "Latest timed recovery test against each target.")
+    if slug == "ai-governance":
+        c = C(u["status"] for u in USECASES)
+        return donut("Board decisions", "use cases", [("Approved", c["Approved"], "--low", "status:Approved"),
+            ("Approved with conditions", c["Approved with conditions"], "--mod", "status:Approved with conditions"),
+            ("Under review", c["Under review"], "--none", "status:Under review"), ("Paused", c["Paused"], "--high", "status:Paused"),
+            ("Prohibited", c["Prohibited"], "--crit", "status:Prohibited")], "AI Review Board outcome for each use case.")
+
 SPECS = [spec_risk, spec_csf, spec_audit, spec_vuln, spec_tprm, spec_cloud, spec_bcdr, spec_ai]
 
 # ---------------------------------------------------------------- render
@@ -718,12 +782,17 @@ def render_project(p, idx, all_specs):
     ctable = "<table><thead><tr>" + "".join(f"<th>{e(h)}</th>" for h in chead) + "</tr></thead><tbody>" + \
              "".join("<tr>" + "".join(f"<td>{e(c)}</td>" for c in r) + "</tr>" for r in crows) + "</tbody></table>"
     rel = p.get("related") or []
-    related = "".join(f'<a href="../{s}/"><b>{e(TITLES[s])}</b><span>Project {ORDER.index(s)+1:02d}</span></a>' for s in rel[:3])
-    nav = [("Summary", "#summary"), ("Register", "#register"), ("Method", "#method"), ("All projects", "../../#work")]
+    related = "".join(f'<a style="--rc:var(--{PCLASS[s]})" href="../{s}/"><b>{e(TITLES[s])}</b><span>Project {ORDER.index(s)+1:02d}</span></a>' for s in rel[:3])
+    nav = [("Dashboard", "#summary"), ("Register", "#register"), ("Method", "#method"), ("All projects", "../../#work")]
     pager = ""
     if prev_s: pager += f'<a href="../{prev_s["slug"]}/"><span>← Previous · {idx:02d}</span>{e(TITLES[prev_s["slug"]])}</a>'
     if next_s: pager += f'<a class="next" href="../{next_s["slug"]}/"><span>Next · {idx+2:02d} →</span>{e(TITLES[next_s["slug"]])}</a>'
     fw = "".join(f'<span class="chip">{e(f)}</span>' for f in p["frameworks"])
+    rating_panel = (f'<div class="panel"><h3>Overall rating</h3><div class="rating" style="border:0;padding:0">'
+                    f'<div class="scale r{level}">{scale}</div><strong>{e(RATINGS[level])}</strong><p>{e(rtext)}</p></div>'
+                    f'<h3 style="margin-top:6px">Top issues</h3><ul class="topissues">'
+                    + "".join(f'<li><span class="ref">{e(r)}</span><a href="#findings">{e(t)}</a></li>' for r, t, _ in p["findings"][:3])
+                    + '</ul></div>')
     body = f"""{topbar(2, nav)}
 <main id="main">
 <header class="p-head"><div class="wrap">
@@ -735,23 +804,21 @@ def render_project(p, idx, all_specs):
 <div class="p-meta"><div><span>Organization</span>{e(COMPANY["name"])} (fictional)</div><div><span>Period</span>{e(p["period"])}</div><div><span>Prepared by</span>{e(PERSON["name"])}</div></div>
 </div></header>
 
-<section class="p-section" id="summary" aria-labelledby="h-summary"><div class="wrap">
-<h2 id="h-summary">Engagement summary</h2>
-<div class="glance">{glance}</div>
+<section class="p-section dash" id="summary" aria-labelledby="h-dash"><div class="wrap">
+<h2 id="h-dash">Dashboard</h2>
 <div class="kpis">{kpis}</div>
-</div></section>
-
-<section class="p-section" aria-labelledby="h-concl"><div class="wrap">
-<h2 id="h-concl">Conclusion and key findings</h2>
-<div class="conclusion">
-<div class="rating"><span class="label">Overall rating</span><div class="scale r{level}">{scale}</div><strong>{e(RATINGS[level])}</strong><p>{e(rtext)}</p></div>
-<div class="keyfindings">{finds}</div>
-</div>
-</div></section>
-
-<section class="p-section" aria-labelledby="h-analysis"><div class="wrap">
-<h2 id="h-analysis">Analysis</h2>
+<div class="dgrid-top">{make_donut(slug)}{rating_panel}</div>
 {p["charts"]}
+</div></section>
+
+<section class="p-section" id="findings" aria-labelledby="h-concl"><div class="wrap">
+<h2 id="h-concl">Key findings</h2>
+<div class="keyfindings">{finds}</div>
+</div></section>
+
+<section class="p-section" aria-labelledby="h-scope"><div class="wrap">
+<h2 id="h-scope">Scope and approach</h2>
+<div class="glance">{glance}</div>
 </div></section>
 
 <section class="p-section" id="register" aria-labelledby="h-reg"><div class="wrap">
@@ -774,7 +841,7 @@ def render_project(p, idx, all_specs):
 </main>
 {footer()}"""
     desc = f"{title}: {p['lede'][:150]}"
-    write(f"projects/{slug}/index.html", page(f"{title} | {PERSON['name']}", desc, body, depth=2, canonical_path=f"projects/{slug}/"))
+    write(f"projects/{slug}/index.html", page(f"{title} | {PERSON['name']}", desc, body, depth=2, canonical_path=f"projects/{slug}/", body_class=PCLASS[slug]))
     rel_path, header, rows = p["csv"]
     write_csv(rel_path, header, rows)
 

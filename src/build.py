@@ -2,7 +2,7 @@
 from collections import Counter
 from lib import e, page, topbar, footer, write, DISCLOSURE
 from data_company import PERSON, COMPANY
-from projects import build_projects, TITLES, ORDER
+from projects import build_projects, TITLES, ORDER, PCLASS
 from data_p1_risk import RISKS
 from data_p2_csf import OUTCOMES
 from data_p3_audit import CONTROLS
@@ -37,51 +37,52 @@ ONE_LINE = {
  "ai-governance": "An AI use-case inventory, risk tiering, NIST AI RMF gap review and AI Review Board decisions, including shadow AI.",
 }
 
-nav = [("Work", "#work"), ("Method", "#method"), ("About", "#about"), ("Contact", "#contact")]
+nav = [("About", "#top"), ("Work", "#work"), ("Method", "#method"), ("Contact", "#contact")]
 
 score_rows = "".join(
-    f'<li><a href="projects/{s}/"><span class="n">{i+1:02d}</span><span class="t">{e(TITLES[s])}'
-    f'<small>{HEAD[s][0][0]} {e(HEAD[s][0][1])} · {HEAD[s][1][0]} {e(HEAD[s][1][1])}</small></span><span aria-hidden="true">→</span></a></li>'
+    f'<li class="{PCLASS[s]}"><a href="projects/{s}/"><span class="n">{i+1:02d}</span><span class="t">{e(TITLES[s])}'
+    f'<small>{HEAD[s][0][0]} {e(HEAD[s][0][1])} · {HEAD[s][1][0]} {e(HEAD[s][1][1])}</small></span><span class="go" aria-hidden="true">→</span></a></li>'
     for i, s in enumerate(ORDER))
 
 creds = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in PERSON["credentials"])
 facts = "".join(f"<dt>{e(k)}</dt><dd>{e(v)}</dd>" for k, v in COMPANY["facts"])
 
 def plinks(slugs):
-    return "".join(f'<li><a href="projects/{s}/">{ORDER.index(s)+1:02d} · {e(TITLES[s])}</a></li>' for s in slugs)
+    return "".join(f'<li class="{PCLASS[s]}"><a href="projects/{s}/"><i></i><span>{ORDER.index(s)+1:02d} · {e(TITLES[s])}</span></a></li>' for s in slugs)
 
 plist = []
-for i, s in enumerate(ORDER):
-    sp = by[s]
+for i, s_ in enumerate(ORDER):
+    sp = by[s_]
     fw = "".join(f'<span class="chip">{e(f)}</span>' for f in sp["frameworks"][:3])
-    stats = "".join(f'<div><b>{n}</b><span>{e(l)}</span></div>' for n, l in HEAD[s])
-    plist.append(f"""<li><span class="pn">{i+1:02d}</span>
-<div class="pbody"><span class="label">{e(sp["kicker"])}</span><h3><a href="projects/{s}/">{e(TITLES[s])}</a></h3><p>{e(ONE_LINE[s])}</p><div class="chips">{fw}</div></div>
-<div class="pstats">{stats}</div>
-<div class="open"><a href="projects/{s}/">Open the assessment →</a></div></li>""")
+    stats = "".join(f'<div class="{"w" if k == 1 else ""}"><b>{n}</b><span>{e(l)}</span></div>' for k, (n, l) in enumerate(HEAD[s_]))
+    plist.append(f"""<li class="pcard {PCLASS[s_]}">
+<div class="top"><span class="pn">{i+1:02d}</span><span class="k">{e(sp["kicker"])}</span><h3><a href="projects/{s_}/">{e(TITLES[s_])}</a></h3></div>
+<div class="body"><p>{e(ONE_LINE[s_])}</p><div class="stats">{stats}</div><div class="chips">{fw}</div><span class="open">Open the dashboard →</span></div></li>""")
 
-contact_items = [f'<a class="btn" href="{e(PERSON["github"])}" target="_blank" rel="noopener">GitHub</a>']
+contact_items = [f'<a class="btn ghost" href="{e(PERSON["github"])}" target="_blank" rel="noopener">GitHub</a>']
 if PERSON["linkedin"]: contact_items.insert(0, f'<a class="btn" href="{e(PERSON["linkedin"])}" target="_blank" rel="noopener">LinkedIn</a>')
 if PERSON["resume"]: contact_items.append(f'<a class="btn" href="{e(PERSON["resume"])}" target="_blank" rel="noopener">Resume (PDF)</a>')
 email_line = (f'<p>Email: <span class="copy">{e(PERSON["email"])}</span></p>' if PERSON["email"] else "")
 
 li_btn = (f'<a class="btn ghost" href="{e(PERSON["linkedin"])}" target="_blank" rel="noopener">LinkedIn</a>' if PERSON["linkedin"] else "")
+creds_html = "".join(f'<span class="cred"><i class="{"prog" if "progress" in b.lower() else ""}"></i><b>{e(a)}</b><span>{e(b)}</span></span>' for a, b in PERSON["credentials"])
 total_records = len(RISKS)+len(OUTCOMES)+len(CONTROLS)+len(FINDINGS)+len(VENDORS)+len(CHECKS)+len(SERVICES)+len(USECASES)
 
 body = f"""{topbar(0, nav)}
 <main id="main">
-<section class="hero"><div class="wrap">
-<div class="hero-copy">
-<span class="label">{e(PERSON["title"])} · {e(PERSON["focus"])}</span>
-<h1>I turn security gaps into decisions leaders can act on.</h1>
-<p class="lead">I'm {e(PERSON["name"])}. I came to GRC from enterprise IT support and access management, where I saw firsthand how controls work, and fail, in daily operations. This portfolio is a complete security assurance program for one fictional healthcare company: eight connected assessments, {total_records} documented records, every finding tied to a risk, an owner and a date.</p>
-<div class="hero-actions"><a class="btn" href="#work">View the assessments</a>{li_btn}<a class="btn ghost" href="{e(PERSON["github"])}" target="_blank" rel="noopener">GitHub profile</a></div>
-<div class="creds">{creds}</div>
+<section class="hero" id="top"><div class="wrap">
+<div class="me">
+<div class="me-id"><div class="photo"><img src="{e(PERSON["headshot"])}" alt="Portrait of {e(PERSON["name"])}" width="132" height="132" data-fallback="EB"></div>
+<div><h1>{e(PERSON["name"])}</h1><div class="role">GRC Analyst · Risk, Compliance &amp; IT Audit</div><div class="loc">{e(PERSON["location"])}</div></div></div>
+<p class="thesis">I turn security gaps into <em>decisions leaders can act on.</em></p>
+<p class="bio">I've spent about four years in enterprise IT, most recently as a help desk analyst handling access requests, account lifecycle and endpoint issues. That work showed me where controls break down in practice: the leaver account nobody disabled, the admin role nobody reviewed, the backup nobody tested. I now apply that view to governance, risk and compliance.</p>
+<p class="bio">This portfolio is a complete security assurance program for one fictional healthcare company: eight connected assessments and {total_records} documented records, each tied to a risk, an owner and a date.</p>
+<div class="creds">{creds_html}</div>
+<div class="hero-actions"><a class="btn" href="#work">View the dashboards</a>{li_btn}<a class="btn ghost" href="{e(PERSON["github"])}" target="_blank" rel="noopener">GitHub</a></div>
 </div>
 <aside class="scorecard" aria-label="Program scorecard">
 <header><b>{e(COMPANY["program"])}</b><span class="label">Status as of {e(COMPANY["as_of"])}</span></header>
 <ol>{score_rows}</ol>
-<footer>{e(COMPANY["name"])} is fictional. Every record was written for this portfolio.</footer>
 </aside>
 </div></section>
 
@@ -102,8 +103,8 @@ body = f"""{topbar(0, nav)}
 
 <section id="work" aria-labelledby="h-work"><div class="wrap">
 <div class="section-head"><span class="label">Assessments</span><h2 id="h-work">The work</h2>
-<p>Each assessment opens as a full report: scope, conclusion, key findings, analysis, a searchable register with complete records, and the method and criteria used. Every register downloads as CSV.</p></div>
-<ol class="plist">{"".join(plist)}</ol>
+<p>Each project opens as an interactive dashboard: headline metrics, charts you can click to filter, key findings, a searchable register with complete records, and the method used. Every register downloads as CSV.</p></div>
+<ul class="pgrid">{"".join(plist)}</ul>
 </div></section>
 
 <section class="band" id="method" aria-labelledby="h-method"><div class="wrap">
@@ -139,18 +140,8 @@ body = f"""{topbar(0, nav)}
 </div>
 </div></section>
 
-<section class="band" id="about" aria-labelledby="h-about"><div class="wrap">
-<div class="about">
-<div class="photo"><img src="{e(PERSON["headshot"])}" alt="Portrait of {e(PERSON["name"])}" width="200" height="250" loading="lazy" data-fallback="EB"></div>
-<div class="about-copy"><span class="label">About</span><h2 id="h-about">{e(PERSON["name"])}</h2>
-<p>I've spent about four years in enterprise IT, most recently as a help desk analyst handling access requests, account lifecycle and endpoint issues. That work showed me where controls break down in practice: the leaver account nobody disabled, the admin role nobody reviewed, the backup nobody tested.</p>
-<p>I hold an M.S. in Management Information Systems from Texas Southern University and CompTIA Security+, and I'm preparing for ISACA's CISA. I'm looking for roles in GRC, IT risk, compliance and IT audit, especially where identity and access management meet governance.</p>
-<p class="muted">{e(PERSON["location"])}</p></div>
-</div>
-</div></section>
-
 <section class="contact" id="contact" aria-labelledby="h-contact"><div class="wrap">
-<span class="label" style="color:inherit;opacity:.75">Contact</span>
+<span class="label" style="color:var(--gold)">Contact</span>
 <h2 id="h-contact">Let's talk about your GRC team.</h2>
 <p>I'm open to GRC analyst, IT risk, compliance and IT audit roles, remote or in the Pacific Northwest. LinkedIn is the fastest way to reach me.</p>
 {email_line}
