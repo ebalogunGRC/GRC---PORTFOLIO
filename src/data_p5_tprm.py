@@ -1,0 +1,67 @@
+"""Project 05 — Third-party risk management. Vendor names other than AWS and Microsoft are fictional.
+Tier from inherent-risk questionnaire: data sensitivity, access, operational dependency, substitutability."""
+
+# id, vendor, service, data, access, tier, assurance reviewed, baa, key findings, residual, decision, conditions, owner, next review, links
+T = [
+ ("TPR-01","Amazon Web Services","Production cloud hosting","PHI","Hosts all production",1,
+  "SOC 2 Type II (Oct 2025–Sep 2026), unqualified; 41 complementary user entity controls (CUECs) mapped","Yes",
+  "No exceptions relevant to NovaCare. 6 CUECs relate to customer-side IAM and logging and are tracked in Projects 02 and 06.",
+  "Low","Approve","Keep CUEC mapping current with each new report.","Cloud Platform Lead","2027-10-31","CIA program"),
+ ("TPR-02","Clinilink Systems","EHR integration partner (HL7/FHIR)","PHI","Persistent site-to-site VPN",1,
+  "SOC 2 Type II (Jan–Dec 2025), qualified opinion on CC6.1 logical access; no bridge letter","Yes",
+  "Auditor found shared administrator accounts in production. VPN tunnel allowed any-to-any traffic into the hub subnet. No bridge letter for 2026.",
+  "High","Approve with conditions","Corrective action plan by 2026-12-15; tunnel restricted to two FHIR endpoints; bridge letter required; quarterly status calls.",
+  "Vendor Risk Manager","2027-03-31","R-05, VM-13, CSF DE.CM-06"),
+ ("TPR-03","Microsoft","Microsoft 365 and Entra ID","PHI","Tenant-wide (email, files)",1,
+  "SOC 2 Type II (M365), ISO 27001 certificate; CUECs mapped","Yes",
+  "No exceptions relevant to NovaCare. CUECs on MFA and conditional access depend on NovaCare configuration.",
+  "Low","Approve","Track CUECs through the Cloud & IAM assessment.","IT Operations Manager","2027-10-31","CIA program"),
+ ("TPR-04","Vaultline Backup","Off-site backup of on-prem file servers","PHI","Agent on 2 servers, outbound only",2,
+  "ISO 27001 certificate (scope excludes the US data center); SIG Core questionnaire","Yes",
+  "Certificate scope does not cover the facility that stores NovaCare data. Encryption keys are held by the vendor.",
+  "Moderate","Approve with conditions","Obtain a scope-inclusive attestation or move to customer-managed keys by renewal.",
+  "BCDR Manager","2027-04-30","BIA-07"),
+ ("TPR-05","Paylane Payroll","Payroll processing","PII (employees)","SFTP file upload",2,
+  "SOC 1 and SOC 2 Type II, unqualified","N/A",
+  "No exceptions. Report covers the full period.",
+  "Low","Approve","None.","HR Director","2027-09-30",""),
+ ("TPR-06","Helpdesko","Customer support ticketing (SaaS)","PHI","SSO; agents attach patient documents",2,
+  "SOC 2 Type II, unqualified; pen-test summary","No",
+  "Support agents upload PHI attachments, but no BAA is in place. Data retention is unlimited by default.",
+  "High","Remediate before renewal","Execute a BAA, set 18-month attachment retention, restrict attachment types. Renewal blocked until signed.",
+  "Privacy Officer","2026-12-31",""),
+ ("TPR-07","Scribewell AI","Ambient clinical note transcription","PHI","API from telehealth app",1,
+  "SIG Lite only; no third-party attestation; model training terms reviewed","Yes",
+  "Contract permits use of de-identified data for model training. No independent audit report. Data stored outside the US for 30 days.",
+  "High","Approve with conditions","Contract amendment prohibiting training use; US-only processing; SOC 2 Type I within 9 months. Linked to AI-04.",
+  "Vendor Risk Manager","2027-04-30","AI-04"),
+ ("TPR-08","Brightwire MSSP","Outsourced 24/7 SOC","Security logs (may contain PHI)","Read access to SIEM and EDR; isolation rights",1,
+  "SOC 2 Type II, unqualified; IR runbook review","Yes",
+  "No report exceptions. SLA for critical alerts (30 min) met in 11 of 12 months.",
+  "Low","Approve","Include in the joint IR tabletop.","SOC Manager","2027-06-30","CSF RS.MA-01"),
+ ("TPR-09","Calendra","Appointment scheduling widget","PII (names, contact)","Embedded JavaScript on portal",3,
+  "Security questionnaire; no attestation","No",
+  "Script loads from a vendor CDN without subresource integrity. Collects names and phone numbers only.",
+  "Moderate","Approve with conditions","Add the script to the portal CSP allowlist with SRI or self-host it.",
+  "AppSec Lead","2027-06-30","VM-14"),
+ ("TPR-10","SignRight","E-signature for clinic contracts","Confidential business","SSO",3,
+  "SOC 2 Type II, unqualified","N/A",
+  "No exceptions.",
+  "Low","Approve","None.","Compliance Director","2027-09-30",""),
+ ("TPR-11","TechAssist Partners","Remote IT support contractor","PHI (incidental)","Remote desktop to workstations",2,
+  "SIG Core; no attestation","Yes",
+  "Technicians share 2 generic accounts; sessions are not recorded; no background-check evidence provided.",
+  "High","Remediate before renewal","Named accounts with MFA, session recording, background-check attestation. Access suspended for generic accounts.",
+  "IT Operations Manager","2026-12-15",""),
+ ("TPR-12","Insightly Analytics","Website marketing analytics","None (pseudonymous)","Tag on public website only",4,
+  "Privacy policy and DPA review","N/A",
+  "Tag excluded from authenticated portal pages after review.",
+  "Low","Approve","Confirm tag stays off authenticated pages at each release.","Compliance Director","2027-10-31",""),
+]
+
+TIERS = {1:"Tier 1 · Critical",2:"Tier 2 · High",3:"Tier 3 · Moderate",4:"Tier 4 · Low"}
+VENDORS = []
+for t in T:
+    (tid,name,svc,data,access,tier,assur,baa,find,resid,dec,cond,owner,nextr,links)=t
+    VENDORS.append(dict(id=tid,name=name,service=svc,data=data,access=access,tier=tier,tier_label=TIERS[tier],
+        assurance=assur,baa=baa,findings=find,residual=resid,decision=dec,conditions=cond,owner=owner,next=nextr,links=links))
